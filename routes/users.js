@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 router.post('/signup',function(req,res,next) {
   User.findOne({ username: req.body.username })
   .then((user) => {
-    if(user != null) {
+    if(user !== null) {
       var err = new Error('user ' +  req.body.username + ' already exists');
       err.status = 403;
       next(err);
@@ -49,9 +49,10 @@ router.post('/login', (req, res, next) => {
     var auth = new Buffer.from(authHeader.split(' ')[1],'base64').toString().split(':');
     var username= auth[0];
     var password = auth[1];
+    console.log(username,password);
 
-    User.findOne({username: username}).
-    then((user) => {
+    User.findOne({username: username})
+    .then((user) => {
       if (user === null) {
         var err = new Error('User ' + username + ' does not exists');
         err.status = 403;
